@@ -1,0 +1,51 @@
+
+from operator import itemgetter, attrgetter
+from matplotlib import pyplot as plt
+
+f = open("c:/data/python/testt.txt","r")
+stat = open("c:/data/python/text_stat.txt","w")
+sentence = f.read()
+print(sentence) 
+#sentence ="Due to system reason, the flight MU 552 /MU 551 cannot check in online, please go to check-in counter at the airport, we are sorry for your inconvenience.China Eastern online check-in system is only available for adults who require no special assistance and travelling with flights operating by China Eastern Airlines and Shanghai Airlines. With the exception of American and Canadian airports, where online check-in service opens 24 hours before the flight departs, and online check-in service of Harbin Airport opens before 21:00 of the day prior to the departure of the flight, while at other airports, the service opens 48 hours before the departure time.Passengers who have already checked in online but who are not able to take their scheduled flight must cancel their check-in online at least 1 hour before flight departure.Passengers who already checked in online wish to change their seat reservation may contact China Eastern Airlines check-in counters for seat change.To check in online, passengers’ valid travel documents must be at least valid for 6 months from the date of return.It is the passengers’ responsibility to ensure the validity of their Entry Visa or Transit Visa before entering or leaving a country as destination or stopover."
+
+word_set = set(sentence.split())
+#print(word_set)
+
+word_dicts =[]
+for word in word_set:
+    word_count = sentence.count(word)
+    word_dicts.append((word, word_count))
+
+sorted_word_dict = sorted(word_dicts, key=itemgetter(0), reverse=False)
+#print(word_dicts)
+#print(sorted_word_dict)
+
+
+words =[]
+word_counts = []
+for word, word_count in sorted_word_dict:
+    words.append(word)
+    word_counts.append(word_count)
+    string = word + "," + str(word_count)
+    print(string)
+    stat.write(string)
+
+print(words)
+print(word_counts)
+
+fig = plt.figure(dpi=128, figsize=(10,6))
+plt.plot(words, word_counts, c='red')
+
+#format plot
+plt.title("Word counting graph", fontsize=10)
+#plt.xlabel("words", fontsize=8, rotation='vertical')
+plt.xlabel("words", fontsize=8)
+plt.ylabel("Word counts", fontsize=8)
+#plt.tick_params(axis='both', which='major', labelsize=5, labelrotation=45)
+plt.tick_params(axis='x', which='major', labelsize=5, labelrotation=45)
+plt.show()
+
+stat.close()
+f.close()
+
+
